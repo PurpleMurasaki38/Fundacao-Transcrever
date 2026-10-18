@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MANUAL DEFINITIVO — HEXSTRIKE AI + KALI LINUX + AXIOM</title>
+<style>
+  body{font-family:Georgia,serif;max-width:900px;margin:0 auto;padding:20px;line-height:1.6;color:#1a1a1a;background:#fdfdfb}
+  h1{font-size:1.6em;border-bottom:3px solid #333;padding-bottom:8px}
+  h2{border-bottom:1px solid #999;padding-bottom:4px;margin-top:2em}
+  pre{position:relative;background:#0d1117;color:#c9d1d9;padding:14px 14px 14px 14px;border-radius:8px;overflow-x:auto}
+  code{font-family:Consolas,Menlo,monospace;font-size:.9em}
+  p>code,li>code{background:#eee;padding:1px 5px;border-radius:4px}
+  .copy-btn{position:absolute;top:6px;right:6px;background:#238636;color:#fff;border:none;border-radius:5px;padding:3px 10px;cursor:pointer;font-size:12px;font-family:sans-serif}
+  .copy-btn:hover{background:#2ea043}
+  a{color:#0969da}
+  .copy-link{margin-left:6px;font-size:11px;color:#fff;background:#0969da;border:none;border-radius:4px;padding:2px 8px;cursor:pointer;vertical-align:middle}
+  .copy-link:hover{background:#218bff}
+  hr{border:none;border-top:1px solid #ccc;margin:2em 0}
+</style>
+</head>
+<body>
+
+<h1 id="topo"># MANUAL DEFINITIVO — HEXSTRIKE AI + KALI LINUX + AXIOM</h1>
+<p><strong>## Instalação, configuração, integração, personalização e manutenção dos arquivos</strong></p>
+<p><strong>Versão do manual:</strong> 1.0<br>
+<strong>Ambiente de referência:</strong> Kali Linux / terminal Linux<br>
+<strong>Projeto HexStrike:</strong> <code>~/cerebrocaine/hexstrike-ai</code><br>
+<strong>Porta do HexStrike:</strong> <code>8888</code><br>
+<strong>Porta de referência do AXIOM:</strong> <code>8890</code></p>
+<hr>
+<h2 id="sumario"># SUMÁRIO</h2>
+<ol>
+<li><a href="#s1">Introdução e objetivos</a></li>
+<li><a href="#s2">O que é o HexStrike AI</a></li>
+<li><a href="#s3">O que é o Kali Linux e a diferença para o CAINE</a></li>
+<li><a href="#s4">Preparação do ambiente</a></li>
+<li><a href="#s5">Instalação do HexStrike AI do zero</a></li>
+<li><a href="#s6">Como trabalhar com o ambiente virtual Python</a></li>
+<li><a href="#s7">Como iniciar o servidor HexStrike</a></li>
+<li><a href="#s8">Como verificar se o HexStrike está funcionando</a></li>
+<li><a href="#s9">Como executar o primeiro teste</a></li>
+<li><a href="#s10">Como descobrir quais ferramentas estão disponíveis</a></li>
+<li><a href="#s11">Como chamar ferramentas pela API</a></li>
+<li><a href="#s12">Como instalar ferramentas de segurança adicionais</a></li>
+<li><a href="#s13">Como instalar e utilizar o Hydra em laboratório</a></li>
+<li><a href="#s14">O que é o AXIOM neste ambiente</a></li>
+<li><a href="#s15">Como verificar e iniciar o AXIOM</a></li>
+<li><a href="#s16">Como conectar o AXIOM ao HexStrike</a></li>
+<li><a href="#s17">Como trocar os arquivos do projeto pelos meus arquivos</a></li>
+<li><a href="#s18">Como substituir arquivos Python sem destruir o projeto</a></li>
+<li><a href="#s19">Como substituir arquivos HTML, CSS e JavaScript</a></li>
+<li><a href="#s20">Como trabalhar com arquivos ZIP e cópias de segurança</a></li>
+<li><a href="#s21">Como preservar configurações, senhas e dependências</a></li>
+<li><a href="#s22">Como descobrir as rotas e os parâmetros da API</a></li>
+<li><a href="#s23">Como resolver os erros mais comuns</a></li>
+<li><a href="#s24">Como atualizar o HexStrike com segurança</a></li>
+<li><a href="#s25">Como configurar a inicialização automática</a></li>
+<li><a href="#s26">Como organizar os projetos e diretórios</a></li>
+<li><a href="#s27">Segurança e limites de utilização</a></li>
+<li><a href="#s28">Lista de comandos essenciais</a></li>
+<li><a href="#s29">Checklist final de funcionamento</a></li>
+<li><a href="#s30">Referências oficiais</a></li>
+</ol>
+<hr>
+<h2 id="s1"># 1. INTRODUÇÃO E OBJETIVOS</h2>
+<p>Este manual ensina a instalar, executar, verificar, personalizar e manter um ambiente de ferramentas de segurança baseado no HexStrike AI, utilizando Kali Linux e um projeto adicional chamado AXIOM.</p>
+<p>O objetivo é compreender como as partes do ambiente se relacionam, sem depender de comandos aleatórios que podem falhar ou apagar configurações importantes.</p>
+<p>Ao concluir os procedimentos, você deverá saber:</p>
+<ul>
+<li>Localizar a pasta correta do projeto.</li>
+<li>Instalar as dependências Python.</li>
+<li>Criar e ativar um ambiente virtual.</li>
+<li>Iniciar o servidor do HexStrike.</li>
+<li>Verificar a resposta do servidor pela API.</li>
+<li>Executar um teste simples com Nmap.</li>
+<li>Identificar as ferramentas instaladas e as rotas disponíveis.</li>
+<li>Investigar erros de conexão entre o HexStrike e o AXIOM.</li>
+<li>Trocar arquivos do projeto por versões próprias.</li>
+<li>Preservar cópias de segurança dos arquivos originais.</li>
+<li>Reinstalar dependências quando um arquivo de requisitos for alterado.</li>
+<li>Identificar se um erro está no servidor, na configuração, na dependência ou na ferramenta externa.</li>
+</ul>
+<p><strong>Regra principal:</strong> nunca substitua todos os arquivos de um projeto de uma só vez. Primeiro faça uma cópia de segurança, depois altere os arquivos necessários e teste o resultado.</p>
+<p>Os nomes de pastas, portas e comandos deste manual correspondem ao ambiente de referência. Se uma versão diferente do programa utilizar outros caminhos, parâmetros ou portas, confirme a configuração local antes de executar os comandos.</p>
+<h2 id="s2"># 2. O QUE É O HEXSTRIKE AI</h2>
+<p>O HexStrike AI é um projeto que integra ferramentas de segurança a uma interface de servidor e, em determinadas versões, a clientes compatíveis com o Model Context Protocol (MCP).</p>
+<p>Dependendo da versão instalada e das dependências presentes no sistema, o projeto pode disponibilizar integrações com ferramentas para:</p>
+<ul>
+<li>Reconhecimento de redes.</li>
+<li>Identificação de serviços.</li>
+<li>Análise de aplicações web.</li>
+<li>Enumeração de ativos.</li>
+<li>Análise de vulnerabilidades.</li>
+<li>Auditoria de configurações.</li>
+<li>Análise de arquivos.</li>
+<li>Testes de segurança autorizados.</li>
+</ul>
+<p>O HexStrike não substitui as ferramentas externas. Em muitos casos, ele funciona como uma camada de integração que recebe uma solicitação, verifica os parâmetros e executa uma ferramenta instalada no sistema.</p>
+<p>Por isso, existem três componentes diferentes que precisam ser compreendidos:</p>
+<p><strong>1. O servidor HexStrike:</strong> recebe as requisições e coordena as operações.</p>
+<p><strong>2. As ferramentas externas:</strong> programas como Nmap, Hydra e outras ferramentas que precisam estar instaladas e disponíveis no sistema.</p>
+<p><strong>3. O cliente ou painel:</strong> a interface utilizada para enviar solicitações ao servidor. Pode ser outro programa, um cliente MCP ou um projeto personalizado, como o AXIOM deste ambiente.</p>
+<p>Ter o servidor funcionando não significa que todas as ferramentas estejam instaladas. Da mesma maneira, instalar uma ferramenta não significa que sua rota esteja implementada corretamente na versão do HexStrike utilizada.</p>
+<p>Referência do projeto:<br>
+<a href="https://github.com/0x4m4/hexstrike-ai">https://github.com/0x4m4/hexstrike-ai</a></p>
+<p><strong>Importante:</strong> o repositório acima é uma referência do projeto. A instalação local pode ser um fork ou uma versão modificada, portanto os arquivos locais têm prioridade na hora de identificar rotas, parâmetros e funcionalidades realmente existentes.</p>
+<h2 id="s3"># 3. KALI LINUX, WSL E CAINE</h2>
+<h3>## 3.1. Kali Linux</h3>
+<p>O Kali Linux é uma distribuição Linux voltada a testes de segurança, auditoria, análise forense e atividades relacionadas à segurança da informação.</p>
+<p>No ambiente deste manual, o terminal apresentado é o Kali Linux e o projeto está localizado no diretório pessoal do usuário.</p>
+<p>O caminho utilizado como referência é:</p>
+<p><code>~/cerebrocaine/hexstrike-ai</code></p>
+<p>O símbolo <code>~</code> representa o diretório pessoal do usuário atual.</p>
+<p>Por exemplo, o caminho completo pode ser semelhante a:</p>
+<p><code>/home/kali/cerebrocaine/hexstrike-ai</code></p>
+<p>Entretanto, o caminho real depende do nome do usuário e da estrutura de diretórios.</p>
+<h3>## 3.2. WSL</h3>
+<p>O WSL permite executar distribuições Linux dentro do Windows.</p>
+<p>Se o Kali estiver sendo executado pelo WSL, os arquivos internos do Linux e os arquivos do Windows podem estar em sistemas de diretórios diferentes.</p>
+<p>Não confunda os seguintes locais:</p>
+<ul>
+<li><code>~/cerebrocaine/hexstrike-ai</code>: pasta do projeto dentro do Linux.</li>
+<li><code>/mnt/c/Users/...</code>: normalmente, arquivos da unidade C: do Windows acessados pelo Linux.</li>
+<li><code>~/.venv</code>: possível ambiente virtual localizado na pasta pessoal.</li>
+</ul>
+<p>Antes de editar arquivos, confirme em qual sistema eles estão.</p>
+<h3>## 3.3. CAINE</h3>
+<p>CAINE é também o nome de uma distribuição Linux voltada principalmente à investigação e análise forense digital. Ela não é a mesma distribuição que o Kali Linux.</p>
+<p>Se você estiver utilizando o CAINE verdadeiro, e não apenas usando esse nome para se referir ao seu conjunto de ferramentas, não presuma que todos os comandos de instalação do Kali funcionarão da mesma maneira.</p>
+<p>O HexStrike pode depender de versões de Python, bibliotecas e ferramentas que variam conforme a distribuição.</p>
+<p>Para descobrir a distribuição atual, execute:</p>
+<pre><code>cat /etc/os-release</code></pre>
+<p>Para conferir a arquitetura:</p>
+<pre><code>uname -m</code></pre>
+<p>Para verificar a versão do Python:</p>
+<pre><code>python3 --version</code></pre>
+<p>Registre essas informações antes de fazer grandes alterações.</p>
+<h2 id="s4"># 4. PREPARAÇÃO DO AMBIENTE</h2>
+<p>Antes de instalar ou atualizar qualquer coisa, verifique se o projeto já existe.</p>
+<p>Execute:</p>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai</code></pre>
+<p>Se o comando funcionar, você estará na pasta do projeto.</p>
+<p>Confira o diretório atual:</p>
+<pre><code>pwd</code></pre>
+<p>Liste os arquivos:</p>
+<pre><code>ls -la</code></pre>
+<p>Procure os arquivos principais:</p>
+<pre><code>find . -maxdepth 2 -type f \
+  \( -name "hexstrike_server.py" \
+  -o -name "hexstrike_mcp.py" \
+  -o -name "requirements.txt" \
+  -o -name "README.md" \)</code></pre>
+<p>Se o terminal disser que a pasta não existe, não crie outra pasta com o mesmo nome imediatamente. Primeiro localize a instalação que já existe:</p>
+<pre><code>find ~/cerebrocaine -maxdepth 4 \
+  -name "hexstrike_server.py" 2>/dev/null</code></pre>
+<p>Esse comando procura o arquivo principal dentro da pasta indicada.</p>
+<p>Se não houver resultados, verifique se o projeto está em outro diretório.</p>
+<h3>## 4.1. Verificar ferramentas básicas</h3>
+<p>Execute:</p>
+<pre><code>command -v python3
+command -v git
+command -v curl
+command -v pip3</code></pre>
+<p>Cada comando deverá mostrar um caminho se a ferramenta estiver disponível.</p>
+<p>Confira também:</p>
+<pre><code>python3 --version
+git --version
+curl --version</code></pre>
+<p>Caso alguma ferramenta básica esteja faltando em uma instalação baseada em Debian, Ubuntu ou Kali, o gerenciador de pacotes poderá instalá-la.</p>
+<p>Exemplo:</p>
+<pre><code>sudo apt update
+sudo apt install -y git curl python3 python3-venv python3-pip</code></pre>
+<p>Esse procedimento altera os pacotes do sistema. Leia as mensagens de erro e confirme que os repositórios estão configurados corretamente antes de prosseguir.</p>
+<h2 id="s5"># 5. INSTALAÇÃO DO HEXSTRIKE AI DO ZERO</h2>
+<p><strong>Esta seção é para uma instalação nova.</strong> Se você já possui um HexStrike personalizado, não clone outra cópia por cima da sua instalação atual.</p>
+<h3>## 5.1. Criar uma pasta de projetos</h3>
+<p>Opcionalmente, organize seus projetos em um diretório específico:</p>
+<pre><code>mkdir -p ~/cerebrocaine
+cd ~/cerebrocaine</code></pre>
+<h3>## 5.2. Baixar o repositório</h3>
+<p>O comando <code>git clone</code> baixa uma cópia de um repositório Git.</p>
+<p>Para instalar uma nova cópia do projeto de referência:</p>
+<pre><code>git clone https://github.com/0x4m4/hexstrike-ai.git hexstrike-ai-novo</code></pre>
+<p>Entre na pasta:</p>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai-novo</code></pre>
+<p>Confirme o conteúdo:</p>
+<pre><code>ls -la</code></pre>
+<p>A nova pasta foi nomeada <code>hexstrike-ai-novo</code> para não sobrescrever sua pasta existente <code>hexstrike-ai</code>.</p>
+<p><strong>Não apague a versão antiga até verificar se a nova funciona e se seus arquivos personalizados foram preservados.</strong></p>
+<h3>## 5.3. Criar um ambiente virtual</h3>
+<p>Dentro da pasta da nova instalação:</p>
+<pre><code>python3 -m venv .venv</code></pre>
+<p>O ambiente virtual cria uma área separada para instalar dependências Python.</p>
+<p>Ative-o:</p>
+<pre><code>source .venv/bin/activate</code></pre>
+<p>Quando estiver ativo, o prompt geralmente mostrará algo semelhante a <code>(.venv)</code>.</p>
+<p>Atualize o instalador Python dentro desse ambiente:</p>
+<pre><code>python -m pip install --upgrade pip</code></pre>
+<h3>## 5.4. Instalar as dependências</h3>
+<p>Confira se o projeto contém <code>requirements.txt</code>:</p>
+<pre><code>ls -l requirements.txt</code></pre>
+<p>Se existir, instale as dependências declaradas nele:</p>
+<pre><code>python -m pip install -r requirements.txt</code></pre>
+<p>Se ocorrer um erro, leia a mensagem completa. O erro pode indicar uma biblioteca incompatível, uma versão de Python não suportada, falta de compilador ou dependência do sistema.</p>
+<p>Não instale todas as bibliotecas que encontrar na internet sem verificar se a versão do projeto realmente precisa delas.</p>
+<h3>## 5.5. Confirmar o ambiente virtual</h3>
+<p>Execute:</p>
+<pre><code>which python
+python --version
+python -m pip --version</code></pre>
+<p>Os caminhos do Python e do pip deverão apontar para o ambiente virtual ativo, quando a ativação tiver funcionado.</p>
+<h2 id="s6"># 6. COMO TRABALHAR COM O AMBIENTE VIRTUAL PYTHON</h2>
+<p>Um ambiente virtual não é o próprio HexStrike. Ele é o local em que ficam as dependências Python da instalação.</p>
+<p>Uma pasta pode utilizar nomes diferentes para o ambiente virtual, por exemplo:</p>
+<ul>
+<li><code>.venv</code></li>
+<li><code>venv</code></li>
+<li><code>hexstrike-env</code></li>
+<li><code>hexstrike_env</code></li>
+</ul>
+<p>O nome não é universal. É necessário verificar qual existe na instalação.</p>
+<h3>## 6.1. O erro `.venv/bin/activate: No such file or directory`</h3>
+<p>Esse erro significa que o caminho fornecido não existe a partir do diretório atual.</p>
+<p>No ambiente de referência, o comando abaixo falhou:</p>
+<pre><code>source .venv/bin/activate</code></pre>
+<p>Isso não prova que o ambiente virtual foi apagado. Ele pode estar na pasta pai, em outra pasta ou ainda não ter sido criado.</p>
+<p>Primeiro, entre no projeto:</p>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai</code></pre>
+<p>Liste os diretórios:</p>
+<pre><code>ls -la
+ls -la ~/cerebrocaine</code></pre>
+<p>Procure ambientes virtuais conhecidos:</p>
+<pre><code>find ~/cerebrocaine -maxdepth 4 \
+  -type f -path "*/bin/activate" 2>/dev/null</code></pre>
+<p>Se o resultado mostrar:</p>
+<p><code>/home/SEU_USUARIO/cerebrocaine/.venv/bin/activate</code></p>
+<p>então o ambiente virtual está na pasta pai do projeto.</p>
+<p>Nesse caso, estando dentro de <code>hexstrike-ai</code>, o comando correspondente é:</p>
+<pre><code>source ../.venv/bin/activate</code></pre>
+<p>Se o resultado apontar para outro caminho, utilize o caminho encontrado.</p>
+<p>Se nenhum ambiente virtual for encontrado, crie um apenas depois de confirmar a pasta correta e a existência dos arquivos necessários:</p>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt</code></pre>
+<p>Esse último procedimento pressupõe que <code>requirements.txt</code> exista e pertença à versão que você deseja executar.</p>
+<h3>## 6.2. Como sair do ambiente virtual</h3>
+<p>Execute:</p>
+<pre><code>deactivate</code></pre>
+<p>Isso desativa o ambiente virtual da sessão atual. Não apaga seus arquivos.</p>
+<h2 id="s7"># 7. COMO INICIAR O SERVIDOR HEXSTRIKE</h2>
+<p>O servidor deve ser iniciado na pasta que contém o arquivo Python correto.</p>
+<p>Entre no projeto:</p>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai</code></pre>
+<p>Ative o ambiente virtual correto. No ambiente de referência, se o ambiente estiver na pasta pai:</p>
+<pre><code>source ../.venv/bin/activate</code></pre>
+<p>Confirme que o arquivo principal existe:</p>
+<pre><code>ls -l hexstrike_server.py</code></pre>
+<p>Inicie o servidor:</p>
+<pre><code>python3 hexstrike_server.py</code></pre>
+<p>Se a versão instalada aceitar o modo de depuração, você também poderá utilizar:</p>
+<pre><code>python3 hexstrike_server.py --debug</code></pre>
+<p>Não use opções que a versão local não reconhece.</p>
+<p>Quando o servidor iniciar, observe o endereço e a porta exibidos no terminal.</p>
+<p>No ambiente de referência, a porta esperada é <code>8888</code>, com o endereço local:</p>
+<p><code>http://127.0.0.1:8888</code></p>
+<p><strong>Mantenha esse terminal aberto.</strong> Se você encerrar o processo do servidor, as requisições enviadas a ele deixarão de funcionar.</p>
+<p>Para executar outros comandos, abra um segundo terminal.</p>
+<h2 id="s8"># 8. COMO VERIFICAR SE O HEXSTRIKE ESTÁ FUNCIONANDO</h2>
+<p>Abra outro terminal e execute:</p>
+<pre><code>curl -sS --max-time 10 \
+  http://127.0.0.1:8888/health</code></pre>
+<p>No ambiente de referência, esse endereço respondeu com informações de saúde do servidor.</p>
+<p>A resposta pode conter dados como:</p>
+<ul>
+<li>Versão do servidor.</li>
+<li>Número de ferramentas disponíveis.</li>
+<li>Número de ferramentas registradas.</li>
+<li>Estado de componentes internos.</li>
+</ul>
+<p>A estrutura exata da resposta depende da versão.</p>
+<h3>## 8.1. Interpretar os resultados</h3>
+<h4>### Caso A: o servidor responde com JSON</h4>
+<p>Isso indica que o endpoint de saúde respondeu. É um bom sinal, mas não comprova que todas as ferramentas estejam instaladas ou funcionais.</p>
+<h4>### Caso B: conexão recusada</h4>
+<p>O servidor pode estar desligado, escutando em outra porta ou vinculado a outra interface de rede.</p>
+<p>Confira se o processo está em execução e leia as mensagens do terminal onde ele foi iniciado.</p>
+<h4>### Caso C: tempo limite</h4>
+<p>Pode haver um processo travado, um problema de rede ou uma requisição que demora mais do que o limite especificado.</p>
+<h4>### Caso D: erro HTTP 404</h4>
+<p>A conexão chegou a um servidor, mas o caminho solicitado não foi encontrado naquela aplicação. Verifique a rota e a versão correta da API.</p>
+<h4>### Caso E: erro HTTP 500</h4>
+<p>A aplicação recebeu a solicitação, mas encontrou um erro interno. Consulte o terminal do servidor.</p>
+<h4>### Caso F: erro HTTP 503</h4>
+<p>O serviço consultado não conseguiu atender à requisição. Se o AXIOM apresentar 503, isso não significa automaticamente que o HexStrike esteja quebrado: pode haver um serviço dependente desligado ou uma configuração de conexão incorreta.</p>
+<h2 id="s9"># 9. COMO EXECUTAR O PRIMEIRO TESTE</h2>
+<p>Um primeiro teste deve ser simples, previsível e realizado em um sistema que você controla.</p>
+<p>O ambiente de referência executou uma solicitação Nmap contra o próprio endereço local, utilizando a rota:</p>
+<p><code>/api/tools/nmap</code></p>
+<p>Comando:</p>
+<pre><code>curl -sS -X POST \
+  http://127.0.0.1:8888/api/tools/nmap \
+  -H "Content-Type: application/json" \
+  -d '{"target":"127.0.0.1","scan_type":"-sV","ports":"80,443"}'</code></pre>
+<p>O que cada parte faz:</p>
+<ul>
+<li><code>curl</code>: envia a solicitação HTTP.</li>
+<li><code>-sS</code>: reduz mensagens de progresso, mas preserva erros.</li>
+<li><code>-X POST</code>: utiliza o método HTTP POST.</li>
+<li><code>-H "Content-Type: application/json"</code>: informa que o corpo contém JSON.</li>
+<li><code>target</code>: endereço a ser examinado.</li>
+<li><code>scan_type</code>: tipo de verificação solicitado.</li>
+<li><code>ports</code>: portas especificadas para o teste.</li>
+</ul>
+<p>No ambiente de referência, a resposta indicou sucesso e código de retorno zero. As portas verificadas no endereço local apareceram fechadas naquele momento.</p>
+<p>Os resultados podem mudar conforme os serviços que estejam executando na máquina.</p>
+<p><strong>Importante:</strong> o exemplo verifica somente o endereço local. Não o transforme em uma varredura de terceiros sem autorização.</p>
+<h2 id="s10"># 10. COMO DESCOBRIR AS FERRAMENTAS DISPONÍVEIS</h2>
+<p>O número total de ferramentas anunciado por uma versão do HexStrike não é necessariamente igual ao número de ferramentas instaladas no sistema operacional.</p>
+<p>Há pelo menos três estados distintos:</p>
+<ol>
+<li>Ferramenta prevista no código.</li>
+<li>Rota ou integração registrada no servidor.</li>
+<li>Executável externo instalado e funcional.</li>
+</ol>
+<p>Uma ferramenta pode estar prevista no código, mas não possuir seu executável instalado.</p>
+<h3>## 10.1. Procurar ferramentas no sistema</h3>
+<p>Para verificar o Nmap:</p>
+<pre><code>command -v nmap
+nmap --version</code></pre>
+<p>Para verificar o Hydra:</p>
+<pre><code>command -v hydra
+hydra -h</code></pre>
+<p>Para verificar o Subfinder:</p>
+<pre><code>command -v subfinder</code></pre>
+<p>Se <code>command -v</code> não mostrar um caminho, o executável provavelmente não está disponível no <code>PATH</code>.</p>
+<h3>## 10.2. Procurar referências a uma ferramenta no código</h3>
+<p>Dentro do projeto:</p>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai
+grep -ni "hydra" hexstrike_server.py | head -30</code></pre>
+<p>Para Nmap:</p>
+<pre><code>grep -ni "nmap" hexstrike_server.py | head -30</code></pre>
+<p>Para AXIOM:</p>
+<pre><code>grep -Rni "axiom" . \
+  --exclude-dir=.git \
+  --exclude-dir=.venv 2>/dev/null | head -80</code></pre>
+<p>Esses comandos procuram referências textuais. Eles não garantem, sozinhos, que uma ferramenta esteja funcional.</p>
+<h3>## 10.3. Procurar as rotas HTTP</h3>
+<p>Para procurar definições de rotas no arquivo principal:</p>
+<pre><code>grep -nE \
+  '@app\.(route|get|post|put|delete)' \
+  hexstrike_server.py | head -100</code></pre>
+<p>O resultado depende da estrutura do código. Algumas aplicações registram rotas por funções auxiliares, blueprints ou outros mecanismos.</p>
+<p>Se uma rota não aparecer nessa busca, não conclua imediatamente que ela não existe. Procure também o nome da ferramenta e a função responsável por executá-la.</p>
+<h2 id="s11"># 11. COMO CHAMAR FERRAMENTAS PELA API</h2>
+<p>A API é a interface HTTP utilizada para enviar solicitações ao servidor.</p>
+<p>No ambiente de referência, a rota Nmap aceita uma requisição POST com um objeto JSON.</p>
+<p>Exemplo de formato:</p>
+<pre><code>curl -sS -X POST \
+  http://127.0.0.1:8888/api/tools/nmap \
+  -H "Content-Type: application/json" \
+  -d '{"target":"127.0.0.1","scan_type":"-sV","ports":"80,443"}'</code></pre>
+<p>Não presuma que todas as rotas aceitam os mesmos campos.</p>
+<p>Uma rota pode exigir:</p>
+<ul>
+<li>Um alvo.</li>
+<li>Uma lista de portas.</li>
+<li>Um nome de arquivo.</li>
+<li>Um tipo de análise.</li>
+<li>Um diretório de saída.</li>
+<li>Outros parâmetros específicos.</li>
+</ul>
+<p>A maneira correta de descobrir os parâmetros aceitos é ler a função da rota no código da versão instalada.</p>
+<h3>## 11.1. Inspecionar uma rota</h3>
+<p>Primeiro, localize a definição:</p>
+<pre><code>grep -n -i "api/tools/nmap" hexstrike_server.py</code></pre>
+<p>Anote o número da linha retornado.</p>
+<p>Em seguida, use <code>sed</code> para visualizar o trecho correspondente. Substitua os números do exemplo pelo intervalo encontrado:</p>
+<pre><code>sed -n '1000,1100p' hexstrike_server.py</code></pre>
+<p>Os números acima são apenas um exemplo de intervalo, não a localização garantida da rota.</p>
+<p>Procure dentro da função:</p>
+<ul>
+<li>O nome dos campos JSON.</li>
+<li>Os valores obrigatórios.</li>
+<li>A validação de entrada.</li>
+<li>A forma como os argumentos são montados.</li>
+<li>O tratamento de erros.</li>
+<li>A resposta devolvida ao cliente.</li>
+</ul>
+<p><strong>Nunca invente campos JSON e espere que todas as rotas os aceitem.</strong> Uma rota pode simplesmente rejeitar a solicitação ou ignorar os campos desconhecidos.</p>
+<h2 id="s12"># 12. COMO INSTALAR FERRAMENTAS DE SEGURANÇA ADICIONAIS</h2>
+<p>O HexStrike depende das ferramentas que a sua versão integra e que estejam disponíveis no sistema.</p>
+<p>Antes de instalar qualquer programa, verifique se ele já existe:</p>
+<pre><code>command -v nmap
+command -v hydra
+command -v john
+command -v hashcat</code></pre>
+<p>Em sistemas baseados em Debian, Ubuntu ou Kali, alguns programas podem estar disponíveis nos repositórios oficiais.</p>
+<p>Exemplo para instalar o Nmap:</p>
+<pre><code>sudo apt update
+sudo apt install -y nmap</code></pre>
+<p>Exemplo para instalar o Hydra:</p>
+<pre><code>sudo apt install -y hydra</code></pre>
+<p>Depois, confira:</p>
+<pre><code>nmap --version
+hydra -h</code></pre>
+<p>A disponibilidade dos pacotes depende da distribuição, dos repositórios e da arquitetura.</p>
+<p>Não instale uma lista enorme de ferramentas de uma só vez se você ainda não sabe quais são necessárias. Instale e teste por etapas para conseguir identificar a origem de um eventual erro.</p>
+<h2 id="s13"># 13. COMO UTILIZAR O HYDRA EM UM LABORATÓRIO</h2>
+<p>O Hydra é uma ferramenta de auditoria de autenticação que pode testar combinações de credenciais em serviços compatíveis.</p>
+<p>Seu uso precisa estar limitado a sistemas próprios, máquinas de laboratório ou alvos para os quais você tenha autorização explícita.</p>
+<p>Um endereço público não se torna automaticamente um alvo autorizado só por estar relacionado a um site educativo.</p>
+<h3>## 13.1. Verificar a instalação</h3>
+<pre><code>command -v hydra
+hydra -h</code></pre>
+<p>Se o programa não estiver instalado, em uma distribuição compatível com os repositórios Debian:</p>
+<pre><code>sudo apt update
+sudo apt install -y hydra</code></pre>
+<h3>## 13.2. Entender a diferença entre Hydra e HexStrike</h3>
+<p>O Hydra é o executável que realiza os testes de autenticação.</p>
+<p>O HexStrike é a camada de integração que pode disponibilizar uma rota para executar o Hydra, caso essa integração esteja presente na sua versão.</p>
+<p>Para verificar se existe uma rota relacionada ao Hydra:</p>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai
+grep -ni "hydra" hexstrike_server.py | head -50</code></pre>
+<p>Se encontrar uma rota, leia a implementação para descobrir os parâmetros que ela realmente aceita.</p>
+<p>Se não encontrar, procure em outros arquivos do projeto:</p>
+<pre><code>grep -Rni "hydra" . \
+  --exclude-dir=.git \
+  --exclude-dir=.venv 2>/dev/null | head -100</code></pre>
+<p>Uma ferramenta instalada no Kali não ganha automaticamente uma rota na API do HexStrike.</p>
+<h3>## 13.3. Prática responsável</h3>
+<p>Para aprender o funcionamento do Hydra, utilize uma aplicação de teste local criada por você ou um laboratório dedicado que autorize expressamente esse tipo de teste.</p>
+<p>Antes de iniciar, confirme:</p>
+<ul>
+<li>Qual máquina está autorizada.</li>
+<li>Qual serviço será testado.</li>
+<li>Quais credenciais de laboratório serão utilizadas.</li>
+<li>Qual é o limite de tentativas permitido.</li>
+<li>Se a atividade pode afetar a disponibilidade do serviço.</li>
+</ul>
+<p>Não execute ataques de força bruta contra logins públicos de terceiros sem autorização específica.</p>
+<h2 id="s14"># 14. O QUE É O AXIOM NESTE AMBIENTE</h2>
+<p>Neste manual, AXIOM é o nome do projeto adicional que você utiliza junto ao HexStrike.</p>
+<p>O contexto de referência indica uma aplicação ou serviço local associado à porta <code>8890</code>. Entretanto, o nome AXIOM é utilizado por diferentes programas, e não há informação suficiente aqui para garantir qual é o código exato ou a arquitetura interna do seu projeto.</p>
+<p>Por isso, este manual trata o AXIOM como uma aplicação personalizada cuja pasta, comando de inicialização e arquivo de configuração precisam ser confirmados na instalação real.</p>
+<p>Não confunda:</p>
+<ul>
+<li>O servidor HexStrike, esperado na porta <code>8888</code>.</li>
+<li>O serviço AXIOM, associado à porta <code>8890</code>.</li>
+<li>Os arquivos e diretórios usados por cada projeto.</li>
+<li>As dependências Python de cada aplicação.</li>
+<li>O cliente que envia solicitações para essas aplicações.</li>
+</ul>
+<p>Duas aplicações podem estar instaladas na mesma máquina e ainda assim não conseguir se comunicar.</p>
+<h2 id="s15"># 15. COMO VERIFICAR E INICIAR O AXIOM</h2>
+<h3>## 15.1. Verificar se a porta está respondendo</h3>
+<p>Execute:</p>
+<pre><code>curl -i --max-time 10 http://127.0.0.1:8890/</code></pre>
+<p>Esse comando consulta a raiz do servidor. Um erro 404 na raiz não prova que o servidor esteja desligado; a aplicação pode simplesmente não possuir uma rota <code>/</code>.</p>
+<p>Se o projeto possuir uma rota de saúde documentada, consulte essa rota.</p>
+<p>Não presuma que o AXIOM use <code>/health</code> só porque o HexStrike usa esse caminho.</p>
+<h3>## 15.2. Verificar o processo</h3>
+<p>Em sistemas que possuem <code>ss</code>, execute:</p>
+<pre><code>ss -ltnp | grep -E ':8888|:8890'</code></pre>
+<p>Esse comando ajuda a identificar se existem processos escutando nas portas esperadas.</p>
+<p>Se nenhum processo estiver escutando em <code>8890</code>, o serviço pode estar desligado, configurado em outra porta ou falhando antes de iniciar.</p>
+<h3>## 15.3. Encontrar os arquivos de inicialização</h3>
+<p>Entre na pasta que contém seus projetos:</p>
+<pre><code>cd ~/cerebrocaine
+ls -la</code></pre>
+<p>Procure arquivos comuns de inicialização:</p>
+<pre><code>find . -maxdepth 4 -type f \
+  \( -name "app.py" \
+  -o -name "main.py" \
+  -o -name "server.py" \
+  -o -name "package.json" \
+  -o -name "index.html" \
+  -o -name "docker-compose.yml" \
+  -o -name "compose.yaml" \) 2>/dev/null</code></pre>
+<p>Essa lista serve como ponto de partida. O arquivo real do AXIOM pode ter outro nome.</p>
+<p>Procure referências à porta:</p>
+<pre><code>grep -Rni "8890" . \
+  --exclude-dir=.git \
+  --exclude-dir=.venv 2>/dev/null | head -100</code></pre>
+<p>Examine os arquivos encontrados antes de iniciar ou modificar o projeto.</p>
+<h3>## 15.4. Iniciar o AXIOM</h3>
+<p>O comando de inicialização precisa corresponder à tecnologia e à estrutura do seu projeto.</p>
+<p>Exemplos possíveis, que não devem ser executados sem confirmar a existência do arquivo correspondente:</p>
+<pre><code>python3 app.py</code></pre>
+<p>ou:</p>
+<pre><code>python3 server.py</code></pre>
+<p>ou, para um projeto Node.js que tenha um script apropriado no <code>package.json</code>:</p>
+<pre><code>npm start</code></pre>
+<p>Esses exemplos não são comandos universais. O nome do arquivo e o script correto devem ser descobertos no seu AXIOM.</p>
+<h2 id="s16"># 16. COMO CONECTAR O AXIOM AO HEXSTRIKE</h2>
+<p>Uma integração entre duas aplicações normalmente depende de quatro elementos:</p>
+<ol>
+<li>O servidor de origem está em execução.</li>
+<li>O endereço e a porta de destino estão corretos.</li>
+<li>O caminho HTTP utilizado existe.</li>
+<li>O formato da requisição é aceito pelo servidor de destino.</li>
+</ol>
+<p>No ambiente de referência:</p>
+<ul>
+<li>HexStrike: <code>http://127.0.0.1:8888</code></li>
+<li>AXIOM: <code>http://127.0.0.1:8890</code></li>
+</ul>
+<p>Esses endereços só funcionam dessa forma se os serviços estiverem na mesma máquina ou no mesmo contexto de rede.</p>
+<h3>## 16.1. Testar primeiro o HexStrike</h3>
+<pre><code>curl -i --max-time 10 \
+  http://127.0.0.1:8888/health</code></pre>
+<p>Se o HexStrike não responder, resolva esse problema antes de investigar a integração.</p>
+<h3>## 16.2. Testar o AXIOM</h3>
+<pre><code>curl -i --max-time 10 \
+  http://127.0.0.1:8890/</code></pre>
+<p>Registre o código HTTP e a resposta.</p>
+<h3>## 16.3. Investigar um erro 503</h3>
+<p>Se o AXIOM retornar <code>503 Service Unavailable</code>, investigue:</p>
+<ul>
+<li>Se o AXIOM está esperando que o HexStrike esteja ligado.</li>
+<li>Se o AXIOM utiliza a porta correta.</li>
+<li>Se o AXIOM chama uma rota realmente existente.</li>
+<li>Se a requisição está chegando ao serviço esperado.</li>
+<li>Se há uma mensagem de erro no terminal do AXIOM.</li>
+<li>Se o HexStrike retornou um erro ao processar a solicitação.</li>
+</ul>
+<p>O erro 503 não deve ser resolvido alterando portas aleatoriamente.</p>
+<h3>## 16.4. Ordem recomendada de inicialização</h3>
+<p>Para um sistema no qual o AXIOM depende do HexStrike:</p>
+<ol>
+<li>Inicie o ambiente Linux.</li>
+<li>Entre na pasta do HexStrike.</li>
+<li>Ative o ambiente virtual correto.</li>
+<li>Inicie o HexStrike.</li>
+<li>Confirme que <code>/health</code> responde.</li>
+<li>Abra outro terminal.</li>
+<li>Inicie o AXIOM usando o comando real do projeto.</li>
+<li>Teste o AXIOM.</li>
+<li>Faça uma requisição simples de integração.</li>
+<li>Examine os registros de ambos os serviços se houver falha.</li>
+</ol>
+<p>Essa sequência facilita a identificação do componente responsável pelo erro.</p>
+<h2 id="s17"># 17. COMO TROCAR OS ARQUIVOS DO PROJETO PELOS MEUS ARQUIVOS</h2>
+<p>Esta seção trata da substituição de arquivos próprios, versões modificadas, interfaces personalizadas e arquivos de configuração.</p>
+<p>A regra fundamental é: <strong>faça backup, identifique o destino, substitua somente o que precisa ser substituído e teste antes de apagar a versão antiga.</strong></p>
+<h3>## 17.1. Identificar a pasta correta</h3>
+<p>Para o HexStrike:</p>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai
+pwd
+ls -la</code></pre>
+<p>Confirme que você está na pasta correta antes de continuar.</p>
+<p>Se o arquivo que deseja substituir pertence ao AXIOM, não o copie para dentro do HexStrike sem confirmar que esse é realmente o destino esperado.</p>
+<h3>## 17.2. Criar uma pasta de backup</h3>
+<p>Crie uma pasta de cópias de segurança fora do diretório que será modificado:</p>
+<pre><code>mkdir -p ~/cerebrocaine/backups</code></pre>
+<p>Para copiar um arquivo antes de substituí-lo, use:</p>
+<pre><code>cp -a arquivo.py \
+  ~/cerebrocaine/backups/arquivo.py.backup</code></pre>
+<p>Troque <code>arquivo.py</code> pelo nome verdadeiro do arquivo.</p>
+<p>O comando <code>cp -a</code> preserva atributos que podem ser relevantes para a cópia.</p>
+<h3>## 17.3. Fazer uma cópia completa do projeto</h3>
+<p>Antes de alterações grandes, volte ao diretório que contém a pasta do projeto:</p>
+<pre><code>cd ~/cerebrocaine</code></pre>
+<p>Crie uma cópia do diretório:</p>
+<pre><code>cp -a hexstrike-ai hexstrike-ai-backup</code></pre>
+<p>Esse procedimento pode exigir espaço adicional no disco, especialmente se a pasta possuir grandes ambientes virtuais, caches ou arquivos baixados.</p>
+<p>A cópia não atualiza nem sincroniza automaticamente os dois diretórios. É uma fotografia do conteúdo no momento da cópia.</p>
+<h3>## 17.4. Copiar um arquivo próprio para o projeto</h3>
+<p>Imagine que seu arquivo personalizado esteja em:</p>
+<p><code>~/Downloads/hexstrike_server.py</code></p>
+<p>E que você queira substituir o arquivo principal do projeto.</p>
+<p>Primeiro, faça backup:</p>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai
+
+cp -a hexstrike_server.py \
+  ~/cerebrocaine/backups/hexstrike_server.py.original</code></pre>
+<p>Depois, confirme a existência do arquivo de origem:</p>
+<pre><code>ls -l ~/Downloads/hexstrike_server.py</code></pre>
+<p>Se o arquivo for realmente o correto, copie-o:</p>
+<pre><code>cp ~/Downloads/hexstrike_server.py \
+  ~/cerebrocaine/hexstrike-ai/hexstrike_server.py</code></pre>
+<p>Compare os arquivos:</p>
+<pre><code>diff -u \
+  ~/cerebrocaine/backups/hexstrike_server.py.original \
+  ~/cerebrocaine/hexstrike-ai/hexstrike_server.py</code></pre>
+<p>O <code>diff</code> mostra diferenças entre as versões.</p>
+<p>Se a comparação revelar alterações inesperadas, restaure o backup antes de continuar.</p>
+<h3>## 17.5. Restaurar o arquivo original</h3>
+<p>Se a versão nova apresentar erros, restaure o backup:</p>
+<pre><code>cp -a \
+  ~/cerebrocaine/backups/hexstrike_server.py.original \
+  ~/cerebrocaine/hexstrike-ai/hexstrike_server.py</code></pre>
+<p>Esse comando substitui o arquivo atual pelo backup. Use-o somente quando tiver certeza de que o backup é a versão desejada.</p>
+<h3>## 17.6. Não substitua a pasta inteira sem planejamento</h3>
+<p>Evite copiar uma pasta completa de arquivos personalizados sobre o projeto sem verificar o conteúdo.</p>
+<p>Isso pode substituir ou apagar:</p>
+<ul>
+<li>Rotas existentes.</li>
+<li>Funções que outras partes do código utilizam.</li>
+<li>Arquivos de requisitos.</li>
+<li>Configurações locais.</li>
+<li>Scripts de inicialização.</li>
+<li>Recursos do painel.</li>
+<li>Arquivos de dados.</li>
+<li>Ajustes de integração com o AXIOM.</li>
+</ul>
+<p>Se você tiver uma versão própria do servidor, o melhor procedimento é comparar os arquivos e incorporar as alterações necessárias de forma controlada.</p>
+<h2 id="s18"># 18. COMO SUBSTITUIR ARQUIVOS PYTHON SEM DESTRUIR O PROJETO</h2>
+<p>Arquivos <code>.py</code> podem conter rotas, funções, configurações e a lógica central da aplicação.</p>
+<p>Antes de substituir um arquivo Python, verifique se o novo arquivo é compatível com a versão do restante do projeto.</p>
+<h3>## 18.1. Verificar a sintaxe</h3>
+<p>Depois de copiar o arquivo, execute:</p>
+<pre><code>python3 -m py_compile hexstrike_server.py</code></pre>
+<p>Se não houver mensagem de erro, a sintaxe básica foi aceita pelo compilador.</p>
+<p>Isso não garante que todas as bibliotecas estejam instaladas nem que o servidor funcione corretamente.</p>
+<h3>## 18.2. Verificar os imports</h3>
+<p>Observe as linhas <code>import</code> e <code>from ... import ...</code> do arquivo.</p>
+<p>Se o arquivo novo depender de uma biblioteca que não existe no ambiente, o programa pode falhar ao iniciar.</p>
+<p>Com o ambiente virtual correto ativado, tente iniciar o servidor e observe o erro completo.</p>
+<p>Não instale uma biblioteca só porque o nome apareceu em uma mensagem sem antes confirmar que ela pertence à versão que você deseja executar.</p>
+<h3>## 18.3. Preservar as rotas antigas</h3>
+<p>Se seu objetivo for adicionar uma nova ferramenta, talvez seja melhor adicionar uma rota nova do que substituir todo o arquivo <code>hexstrike_server.py</code>.</p>
+<p>Antes de editar:</p>
+<pre><code>grep -nE \
+  '@app\.(route|get|post|put|delete)' \
+  hexstrike_server.py | head -100</code></pre>
+<p>Depois, procure a rota que deseja alterar e leia a função completa.</p>
+<p>Uma rota depende da estrutura da aplicação. Copiar somente um trecho de código pode falhar se ele utilizar funções auxiliares, variáveis globais ou bibliotecas que não existem no arquivo de destino.</p>
+<h3>## 18.4. Testar depois da alteração</h3>
+<p>Após uma alteração:</p>
+<ol>
+<li>Faça uma verificação de sintaxe.</li>
+<li>Inicie o servidor.</li>
+<li>Leia o terminal.</li>
+<li>Consulte <code>/health</code>.</li>
+<li>Execute um teste local simples.</li>
+<li>Confirme que as rotas antigas continuam funcionando.</li>
+<li>Teste a nova função isoladamente.</li>
+</ol>
+<p>Não faça cinco alterações diferentes de uma só vez. Se algo falhar, será muito mais difícil descobrir qual mudança causou o problema.</p>
+<h2 id="s19"># 19. COMO SUBSTITUIR ARQUIVOS HTML, CSS E JAVASCRIPT</h2>
+<p>Se o AXIOM possuir uma interface web, os arquivos da interface podem ser diferentes dos arquivos do servidor.</p>
+<p>Os tipos mais comuns são:</p>
+<ul>
+<li><code>.html</code>: estrutura da página.</li>
+<li><code>.css</code>: cores, fontes, tamanhos e layout.</li>
+<li><code>.js</code>: interações, chamadas HTTP e comportamento da interface.</li>
+<li><code>.json</code>: configurações ou dados estruturados.</li>
+<li><code>.py</code>: lógica do servidor, caso a aplicação utilize Python.</li>
+</ul>
+<p>Antes de trocar um arquivo, descubra qual deles é realmente carregado pela aplicação.</p>
+<h3>## 19.1. Localizar arquivos web</h3>
+<p>Dentro da pasta do projeto:</p>
+<pre><code>find . -maxdepth 5 -type f \
+  \( -name "*.html" \
+  -o -name "*.css" \
+  -o -name "*.js" \) \
+  -not -path "*/.git/*" \
+  -not -path "*/node_modules/*"</code></pre>
+<p>O resultado ajuda a localizar os recursos da interface.</p>
+<h3>## 19.2. Fazer backup</h3>
+<p>Exemplo para um arquivo HTML:</p>
+<pre><code>cp -a index.html \
+  ~/cerebrocaine/backups/index.html.backup</code></pre>
+<p>Substitua <code>index.html</code> pelo caminho verdadeiro do arquivo.</p>
+<h3>## 19.3. Copiar a nova versão</h3>
+<p>Se o seu arquivo estiver em <code>~/Downloads/index.html</code>:</p>
+<pre><code>cp ~/Downloads/index.html ./index.html</code></pre>
+<p>Esse comando pressupõe que você esteja no diretório correto e que o arquivo de destino deva realmente se chamar <code>index.html</code>.</p>
+<p>Se o arquivo pertencer a uma pasta como <code>static</code>, <code>templates</code>, <code>public</code> ou <code>src</code>, use o caminho que a estrutura do projeto exigir.</p>
+<h3>## 19.4. Quando a interface não muda</h3>
+<p>Se o arquivo foi substituído, mas a página continua igual, verifique:</p>
+<ul>
+<li>Se você alterou o arquivo correto.</li>
+<li>Se a aplicação serve arquivos de outra pasta.</li>
+<li>Se o servidor precisa ser reiniciado.</li>
+<li>Se o navegador está usando arquivos em cache.</li>
+<li>Se o projeto utiliza um processo de compilação.</li>
+<li>Se o HTML carrega outro CSS ou JavaScript.</li>
+<li>Se a interface é gerada dinamicamente pelo servidor.</li>
+</ul>
+<p>Não altere o backend inteiro para corrigir um problema que pode estar apenas no navegador.</p>
+<h2 id="s20"># 20. COMO TRABALHAR COM ARQUIVOS ZIP E PASTAS PERSONALIZADAS</h2>
+<p>Se seus arquivos estiverem em um ZIP, inspecione o conteúdo antes de extrair.</p>
+<p>Exemplo:</p>
+<pre><code>unzip -l ~/Downloads/meu-projeto.zip</code></pre>
+<p>O comando lista os arquivos sem extraí-los.</p>
+<p>Crie uma pasta de trabalho separada:</p>
+<pre><code>mkdir -p ~/cerebrocaine/importacao</code></pre>
+<p>Extraia o ZIP nessa pasta:</p>
+<pre><code>unzip ~/Downloads/meu-projeto.zip \
+  -d ~/cerebrocaine/importacao</code></pre>
+<p>Confira a estrutura:</p>
+<pre><code>find ~/cerebrocaine/importacao \
+  -maxdepth 4 -type f</code></pre>
+<p>Antes de copiar qualquer arquivo para o HexStrike ou AXIOM, identifique:</p>
+<ul>
+<li>O arquivo principal.</li>
+<li>Os diretórios de recursos.</li>
+<li>As dependências.</li>
+<li>Os arquivos de configuração.</li>
+<li>Os arquivos que precisam permanecer no lugar.</li>
+<li>Os caminhos relativos usados pelo projeto.</li>
+</ul>
+<p>Não execute automaticamente scripts encontrados em arquivos ZIP desconhecidos.</p>
+<h2 id="s21"># 21. COMO PRESERVAR CONFIGURAÇÕES, SENHAS E DEPENDÊNCIAS</h2>
+<h3>## 21.1. Não apagar o ambiente virtual sem motivo</h3>
+<p>O ambiente virtual pode conter todas as dependências necessárias para a instalação atual.</p>
+<p>Apagá-lo não necessariamente apaga o código do projeto, mas pode tornar o servidor incapaz de iniciar até que as dependências sejam reinstaladas.</p>
+<p>Antes de recriar o ambiente, confirme se ele realmente está quebrado e localize o <code>requirements.txt</code> correspondente.</p>
+<h3>## 21.2. Não substituir configurações sem backup</h3>
+<p>Arquivos de configuração podem conter:</p>
+<ul>
+<li>Portas.</li>
+<li>Endereços de serviços.</li>
+<li>Caminhos de diretórios.</li>
+<li>Opções de inicialização.</li>
+<li>Tokens ou credenciais.</li>
+<li>Preferências de execução.</li>
+</ul>
+<p>Antes de substituir um arquivo de configuração, faça uma cópia e compare as diferenças.</p>
+<p>Não publique chaves de API, senhas, cookies ou tokens em logs públicos, repositórios ou capturas de tela.</p>
+<h3>## 21.3. Não sobrescrever o repositório com uma versão aleatória</h3>
+<p>Um arquivo encontrado na internet pode pertencer a outra versão do programa.</p>
+<p>Antes de utilizar um arquivo externo, confira:</p>
+<ul>
+<li>De qual repositório ele veio.</li>
+<li>Qual versão o acompanha.</li>
+<li>Quais dependências ele exige.</li>
+<li>Se as rotas correspondem à sua instalação.</li>
+<li>Se os parâmetros são compatíveis.</li>
+<li>Se ele preserva as funções personalizadas que você utiliza.</li>
+</ul>
+<h2 id="s22"># 22. COMO DESCOBRIR AS ROTAS E OS PARÂMETROS DA API</h2>
+<p>A documentação e o código da versão local são as fontes mais confiáveis para descobrir o formato correto de uma requisição.</p>
+<h3>## 22.1. Procurar a rota</h3>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai
+grep -ni "api/tools/nmap" hexstrike_server.py</code></pre>
+<h3>## 22.2. Ler o trecho correspondente</h3>
+<p>Utilize o número de linha retornado e abra um intervalo ao redor dele.</p>
+<p>Exemplo:</p>
+<pre><code>sed -n '1000,1100p' hexstrike_server.py</code></pre>
+<p>Os números são ilustrativos. Use o intervalo que corresponde à sua versão.</p>
+<h3>## 22.3. Identificar os campos JSON</h3>
+<p>Dentro da função, procure como a aplicação lê a solicitação.</p>
+<p>Ela pode utilizar estruturas como:</p>
+<ul>
+<li><code>request.json</code></li>
+<li><code>request.get_json()</code></li>
+<li>Campos específicos do corpo da requisição.</li>
+<li>Valores padrão.</li>
+<li>Validação de tipos.</li>
+<li>Verificações de parâmetros obrigatórios.</li>
+</ul>
+<p>Os campos disponíveis devem ser obtidos da implementação real, não de suposições.</p>
+<h3>## 22.4. Testar uma alteração de API</h3>
+<p>Depois de modificar uma rota:</p>
+<ol>
+<li>Salve uma cópia do arquivo original.</li>
+<li>Verifique a sintaxe.</li>
+<li>Reinicie o servidor.</li>
+<li>Consulte <code>/health</code>.</li>
+<li>Faça uma requisição com dados de laboratório.</li>
+<li>Examine a resposta JSON.</li>
+<li>Confira o terminal do servidor.</li>
+<li>Repita com entradas inválidas para confirmar o tratamento de erros.</li>
+</ol>
+<h2 id="s23"># 23. COMO RESOLVER OS ERROS MAIS COMUNS</h2>
+<h3>## Erro 1 — `.venv/bin/activate` não existe</h3>
+<p><strong>Causa provável:</strong> o ambiente virtual está em outro caminho ou ainda não foi criado.</p>
+<p><strong>Diagnóstico:</strong></p>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai
+ls -la
+find ~/cerebrocaine -maxdepth 4 \
+  -type f -path "*/bin/activate" 2>/dev/null</code></pre>
+<p>Use o caminho encontrado. Não crie um novo ambiente antes de verificar os existentes.</p>
+<h3>## Erro 2 — `python3: can't open file 'hexstrike_server.py'`</h3>
+<p><strong>Causa provável:</strong> o terminal está no diretório errado ou o arquivo foi renomeado.</p>
+<p><strong>Diagnóstico:</strong></p>
+<pre><code>pwd
+ls -la
+find ~/cerebrocaine -maxdepth 4 \
+  -name "hexstrike_server.py" 2>/dev/null</code></pre>
+<p>Entre na pasta que realmente contém o arquivo.</p>
+<h3>## Erro 3 — `ModuleNotFoundError`</h3>
+<p><strong>Causa provável:</strong> uma biblioteca Python não está instalada no ambiente utilizado.</p>
+<p><strong>Diagnóstico:</strong></p>
+<pre><code>which python
+python -m pip --version</code></pre>
+<p>Se houver um <code>requirements.txt</code> correto para essa versão:</p>
+<pre><code>python -m pip install -r requirements.txt</code></pre>
+<p>Depois, tente iniciar o programa novamente.</p>
+<h3>## Erro 4 — `Address already in use`</h3>
+<p><strong>Causa provável:</strong> outro processo já está utilizando a porta.</p>
+<p>Confira:</p>
+<pre><code>ss -ltnp | grep -E ':8888|:8890'</code></pre>
+<p>Identifique o processo antes de pará-lo. Não encerre processos desconhecidos sem entender sua função.</p>
+<h3>## Erro 5 — `/health` retorna 404</h3>
+<p><strong>Causa provável:</strong> o servidor consultado não possui essa rota, ou você está acessando o programa ou a porta errada.</p>
+<p>Confira o endereço e a implementação da rota. Não confunda um 404 com uma falha de conexão.</p>
+<h3>## Erro 6 — `/api/tools/status` retorna 404</h3>
+<p><strong>Causa provável:</strong> essa rota não está implementada na versão instalada.</p>
+<p>Não presuma que ela exista porque aparece em um tutorial de outra versão.</p>
+<p>Procure no código as rotas que a instalação realmente implementa.</p>
+<h3>## Erro 7 — AXIOM retorna 503</h3>
+<p><strong>Causa provável:</strong> o serviço não consegue atender à solicitação, possivelmente por depender de outro componente ou de uma configuração inválida.</p>
+<p>Teste os dois serviços separadamente e consulte os registros de cada um.</p>
+<h3>## Erro 8 — A ferramenta não foi encontrada</h3>
+<p><strong>Causa provável:</strong> o executável externo não está instalado ou não está disponível no <code>PATH</code>.</p>
+<p>Confira:</p>
+<pre><code>command -v nome_da_ferramenta</code></pre>
+<p>Substitua <code>nome_da_ferramenta</code> pelo nome real do executável.</p>
+<h3>## Erro 9 — A API rejeita os parâmetros</h3>
+<p><strong>Causa provável:</strong> os campos enviados não correspondem aos campos aceitos pela rota.</p>
+<p>Leia a implementação da rota e utilize os nomes e formatos esperados.</p>
+<h3>## Erro 10 — O painel não mostra as alterações</h3>
+<p><strong>Causa provável:</strong> o arquivo errado foi modificado, o servidor precisa ser reiniciado, o navegador usa cache ou existe uma etapa de compilação.</p>
+<p>Localize os arquivos carregados pela aplicação e teste uma alteração pequena antes de substituir todo o painel.</p>
+<h2 id="s24"># 24. COMO ATUALIZAR O HEXSTRIKE COM SEGURANÇA</h2>
+<p>Atualizar um projeto personalizado não é o mesmo que instalar uma cópia nova.</p>
+<p>Se o projeto utiliza Git, verifique o estado antes de atualizar:</p>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai
+git status
+git remote -v
+git log -1 --oneline</code></pre>
+<p>Esses comandos mostram alterações locais, endereços de repositórios remotos e o último commit conhecido.</p>
+<p>Se você modificou arquivos próprios, não descarte essas alterações sem backup.</p>
+<p>Antes de qualquer atualização:</p>
+<ol>
+<li>Faça uma cópia do projeto.</li>
+<li>Registre quais arquivos foram personalizados.</li>
+<li>Confirme o repositório remoto.</li>
+<li>Confira a versão de destino.</li>
+<li>Leia as mudanças relevantes.</li>
+<li>Atualize em uma cópia separada, quando possível.</li>
+<li>Reinstale dependências apenas quando necessário.</li>
+<li>Execute os testes antes de trocar a versão em uso.</li>
+</ol>
+<p>Não utilize comandos destrutivos do Git para apagar mudanças locais sem entender exatamente o que será perdido.</p>
+<h2 id="s25"># 25. COMO CONFIGURAR A INICIALIZAÇÃO AUTOMÁTICA</h2>
+<p>A inicialização automática depende do ambiente.</p>
+<p>Em um terminal simples, o procedimento mais previsível é iniciar manualmente cada servidor e verificar sua resposta.</p>
+<p>Em uma instalação mais avançada, pode ser possível utilizar serviços do sistema, scripts de inicialização ou ferramentas de gerenciamento de processos.</p>
+<p>Antes de configurar a inicialização automática, determine:</p>
+<ul>
+<li>O comando exato que inicia cada programa.</li>
+<li>O diretório de trabalho.</li>
+<li>O ambiente virtual necessário.</li>
+<li>As variáveis de ambiente exigidas.</li>
+<li>A porta utilizada.</li>
+<li>O arquivo de log.</li>
+<li>O comportamento quando um serviço falha.</li>
+</ul>
+<p>Não crie um serviço automático antes de conseguir iniciar e testar o programa manualmente.</p>
+<p>Se estiver utilizando WSL, lembre-se de que o comportamento dos serviços pode depender da configuração específica da distribuição e do Windows.</p>
+<h2 id="s26"># 26. COMO ORGANIZAR OS PROJETOS E DIRETÓRIOS</h2>
+<p>Uma estrutura organizada reduz o risco de substituir arquivos errados.</p>
+<p>Exemplo de organização:</p>
+<pre><code>~/cerebrocaine/
+├── hexstrike-ai/
+│   ├── hexstrike_server.py
+│   ├── hexstrike_mcp.py
+│   ├── requirements.txt
+│   └── ...
+├── axiom/
+│   ├── arquivos-do-projeto
+│   └── ...
+├── backups/
+│   ├── backups-do-hexstrike
+│   └── backups-do-axiom
+└── importacao/
+    └── arquivos-novos-para-revisar</code></pre>
+<p>Essa estrutura é apenas uma sugestão. Não mova os diretórios existentes para que coincidam com o exemplo se o seu projeto já possui caminhos de configuração específicos.</p>
+<p>Uma regra útil é manter separados:</p>
+<ul>
+<li>O código original.</li>
+<li>O código personalizado.</li>
+<li>As cópias de segurança.</li>
+<li>Os arquivos recém-baixados.</li>
+<li>As dependências instaladas.</li>
+<li>Os resultados dos testes.</li>
+</ul>
+<h2 id="s27"># 27. SEGURANÇA E LIMITES DE UTILIZAÇÃO</h2>
+<p>O HexStrike pode coordenar ferramentas que executam operações reais sobre redes, serviços e aplicações.</p>
+<p>Por isso, utilize o ambiente com responsabilidade.</p>
+<p><strong>Boas práticas:</strong></p>
+<ul>
+<li>Testar primeiro em <code>127.0.0.1</code> ou em um laboratório próprio.</li>
+<li>Obter autorização antes de examinar sistemas de terceiros.</li>
+<li>Respeitar o escopo de programas de recompensa por vulnerabilidades.</li>
+<li>Não realizar força bruta contra logins públicos sem autorização específica.</li>
+<li>Não coletar credenciais de terceiros.</li>
+<li>Não expor o servidor de ferramentas à internet sem necessidade.</li>
+<li>Não compartilhar tokens e chaves de API.</li>
+<li>Fazer backups antes de substituir arquivos.</li>
+<li>Revisar os parâmetros antes de executar ferramentas.</li>
+<li>Evitar executar scripts desconhecidos como administrador.</li>
+<li>Manter registros das alterações e dos testes.</li>
+</ul>
+<p>Uma interface de IA não elimina a necessidade de verificar o alvo, os parâmetros e os efeitos de cada operação.</p>
+<h2 id="s28"># 28. LISTA DE COMANDOS ESSENCIAIS</h2>
+<h3>## Navegar pelo projeto</h3>
+<pre><code>cd ~/cerebrocaine/hexstrike-ai
+pwd
+ls -la</code></pre>
+<h3>## Procurar o ambiente virtual</h3>
+<pre><code>find ~/cerebrocaine -maxdepth 4 \
+  -type f -path "*/bin/activate" 2>/dev/null</code></pre>
+<h3>## Ativar o ambiente virtual da pasta pai, se ele existir</h3>
+<pre><code>source ../.venv/bin/activate</code></pre>
+<h3>## Verificar Python e pip</h3>
+<pre><code>which python
+python --version
+python -m pip --version</code></pre>
+<h3>## Verificar o arquivo principal</h3>
+<pre><code>ls -l hexstrike_server.py</code></pre>
+<h3>## Iniciar o HexStrike</h3>
+<pre><code>python3 hexstrike_server.py</code></pre>
+<h3>## Verificar a saúde do servidor</h3>
+<pre><code>curl -sS --max-time 10 \
+  http://127.0.0.1:8888/health</code></pre>
+<h3>## Testar a rota Nmap em localhost</h3>
+<pre><code>curl -sS -X POST \
+  http://127.0.0.1:8888/api/tools/nmap \
+  -H "Content-Type: application/json" \
+  -d '{"target":"127.0.0.1","scan_type":"-sV","ports":"80,443"}'</code></pre>
+<h3>## Verificar as portas dos serviços</h3>
+<pre><code>ss -ltnp | grep -E ':8888|:8890'</code></pre>
+<h3>## Procurar uma ferramenta no código</h3>
+<pre><code>grep -ni "hydra" hexstrike_server.py | head -50</code></pre>
+<h3>## Procurar referências ao AXIOM</h3>
+<pre><code>grep -Rni "axiom" ~/cerebrocaine \
+  --exclude-dir=.git \
+  --exclude-dir=.venv 2>/dev/null | head -100</code></pre>
+<h3>## Fazer backup do arquivo principal</h3>
+<pre><code>mkdir -p ~/cerebrocaine/backups
+
+cp -a hexstrike_server.py \
+  ~/cerebrocaine/backups/hexstrike_server.py.original</code></pre>
+<p>Execute o backup estando no diretório correto do projeto.</p>
+<h3>## Verificar a sintaxe Python</h3>
+<pre><code>python3 -m py_compile hexstrike_server.py</code></pre>
+<h3>## Desativar o ambiente virtual</h3>
+<pre><code>deactivate</code></pre>
+<h2 id="s29"># 29. CHECKLIST FINAL DE FUNCIONAMENTO</h2>
+<p>Use esta lista sempre que instalar, atualizar ou modificar os arquivos.</p>
+<h3>## Instalação</h3>
+<ul>
+<li><input type="checkbox" disabled> Confirmei a distribuição Linux utilizada.</li>
+<li><input type="checkbox" disabled> Confirmei o diretório correto do projeto.</li>
+<li><input type="checkbox" disabled> Localizei o arquivo <code>hexstrike_server.py</code>.</li>
+<li><input type="checkbox" disabled> Identifiquei o ambiente virtual existente.</li>
+<li><input type="checkbox" disabled> Instalei as dependências da versão correta.</li>
+<li><input type="checkbox" disabled> Verifiquei as ferramentas externas necessárias.</li>
+</ul>
+<h3>## HexStrike</h3>
+<ul>
+<li><input type="checkbox" disabled> O servidor iniciou sem erro.</li>
+<li><input type="checkbox" disabled> O servidor está utilizando a porta esperada.</li>
+<li><input type="checkbox" disabled> O endpoint <code>/health</code> respondeu.</li>
+<li><input type="checkbox" disabled> O teste local com Nmap foi executado.</li>
+<li><input type="checkbox" disabled> Confirmei quais rotas existem na minha versão.</li>
+<li><input type="checkbox" disabled> Não presumi que ferramentas ausentes estejam disponíveis.</li>
+</ul>
+<h3>## AXIOM</h3>
+<ul>
+<li><input type="checkbox" disabled> Localizei os arquivos reais do AXIOM.</li>
+<li><input type="checkbox" disabled> Descobri como iniciar a aplicação.</li>
+<li><input type="checkbox" disabled> Confirmei se ela utiliza a porta <code>8890</code>.</li>
+<li><input type="checkbox" disabled> Testei o serviço separadamente.</li>
+<li><input type="checkbox" disabled> Verifiquei a configuração de conexão com o HexStrike.</li>
+<li><input type="checkbox" disabled> Investiguei qualquer erro 503 antes de alterar a configuração.</li>
+</ul>
+<h3>## Arquivos personalizados</h3>
+<ul>
+<li><input type="checkbox" disabled> Fiz uma cópia de segurança.</li>
+<li><input type="checkbox" disabled> Confirmei a origem dos arquivos novos.</li>
+<li><input type="checkbox" disabled> Copiei os arquivos para os destinos corretos.</li>
+<li><input type="checkbox" disabled> Verifiquei as diferenças entre as versões.</li>
+<li><input type="checkbox" disabled> Testei a sintaxe quando aplicável.</li>
+<li><input type="checkbox" disabled> Reinstalei dependências somente quando necessário.</li>
+<li><input type="checkbox" disabled> Confirmei que as funções antigas continuam funcionando.</li>
+<li><input type="checkbox" disabled> Mantive uma forma de restaurar a versão anterior.</li>
+</ul>
+<h2 id="s30"># 30. REFERÊNCIAS OFICIAIS</h2>
+<p><strong>HexStrike AI — repositório de referência</strong><br>
+<a href="https://github.com/0x4m4/hexstrike-ai">https://github.com/0x4m4/hexstrike-ai</a></p>
+<p>Consulte o README e os arquivos da versão utilizada para conferir os comandos de instalação, as dependências, os parâmetros de inicialização e as rotas implementadas.</p>
+<p><strong>Kali Linux — documentação oficial</strong><br>
+<a href="https://www.kali.org/docs/">https://www.kali.org/docs/</a></p>
+<p>Consulte a documentação para obter informações específicas sobre o sistema operacional, os pacotes e a configuração do ambiente.</p>
+<p><strong>Python — ambientes virtuais</strong><br>
+<a href="https://docs.python.org/3/library/venv.html">https://docs.python.org/3/library/venv.html</a></p>
+<p>Documentação oficial sobre a criação e a ativação de ambientes virtuais Python.</p>
+<p><strong>Git — documentação oficial</strong><br>
+<a href="https://git-scm.com/docs">https://git-scm.com/docs</a></p>
+<p>Referência para clonar repositórios, verificar alterações e administrar versões do código.</p>
+<p><strong>CAINE — site oficial</strong><br>
+<a href="https://www.caine-live.net/">https://www.caine-live.net/</a></p>
+<p>Referência para informações sobre a distribuição Linux voltada à análise forense digital.</p>
+<hr>
+<h2># CONCLUSÃO</h2>
+<p>O funcionamento confiável do HexStrike depende de uma combinação de código correto, ambiente Python compatível, ferramentas externas instaladas, configuração adequada e comunicação entre serviços.</p>
+<p>O AXIOM deve ser tratado como um componente separado até que sua estrutura e suas dependências sejam verificadas.</p>
+<p>A personalização deve ser feita por etapas: backup, alteração, teste e validação. Esse processo permite utilizar seus próprios arquivos sem perder desnecessariamente funções, configurações ou dependências da instalação original.</p>
+<p><strong>Regra final:</strong> primeiro confirme que cada componente funciona sozinho; depois conecte os componentes; por último, substitua ou personalize os arquivos. Essa ordem facilita a identificação de erros e reduz o risco de danificar o ambiente.</p>
+
+<script>
+// Botão de copiar em todos os blocos de comando
+document.querySelectorAll('pre').forEach(function(pre){
+  var btn=document.createElement('button');
+  btn.className='copy-btn';
+  btn.textContent='Copiar';
+  btn.onclick=function(){
+    var texto=pre.innerText.replace(/^Copiar\n?/,'');
+    navigator.clipboard.writeText(texto).then(function(){
+      btn.textContent='Copiado!';
+      setTimeout(function(){btn.textContent='Copiar';},1500);
+    });
+  };
+  pre.appendChild(btn);
+});
+// Botão de copiar em todos os links
+document.querySelectorAll('a[href^="http"]').forEach(function(a){
+  var btn=document.createElement('button');
+  btn.className='copy-link';
+  btn.textContent='Copiar link';
+  btn.onclick=function(e){
+    e.preventDefault();
+    navigator.clipboard.writeText(a.href).then(function(){
+      btn.textContent='Copiado!';
+      setTimeout(function(){btn.textContent='Copiar link';},1500);
+    });
+  };
+  a.parentNode.insertBefore(btn,a.nextSibling);
+});
+</script>
+</body>
+</html>
